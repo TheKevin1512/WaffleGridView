@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GridSelectorView">
+        <attr name="density" format="integer" />
+        <attr name="cols" format="integer"/>
+        <attr name="rows" format="integer"/>
+        <attr name="color" format="color"/>
+        <attr name="selectedColor" format="color"/>
+    </declare-styleable>
+</resources>
