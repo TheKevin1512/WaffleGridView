@@ -91,6 +91,15 @@ public class WaffleGridView extends View {
         invalidate();
     }
 
+    public void setSelectedItem(Item item) {
+        this.selectedItem = item;
+        invalidate();
+    }
+
+    public Item getSelectedItem() {
+        return this.selectedItem;
+    }
+
     public void setDensity(float density) {
         this.density = density;
         invalidate();

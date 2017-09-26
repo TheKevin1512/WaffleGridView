@@ -87,6 +87,15 @@ public class GridSelectorView extends View {
         this.paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
     }
 
+    public void setSelectedItem(Item item) {
+        this.selectedItem = item;
+        invalidate();
+    }
+
+    public Item getSelectedItem() {
+        return this.selectedItem;
+    }
+
     public void setItems(Item[] items) {
         this.items = items;
         calculatePositions(items);
