@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dom.studios.R;
+import dom.studios.wafflegridview.R;
 import dom.studios.wafflegridview.model.Item;
 
 /**
