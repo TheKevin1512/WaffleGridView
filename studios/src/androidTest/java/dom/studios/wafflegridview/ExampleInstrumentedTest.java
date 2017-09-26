@@ -1,4 +1,4 @@
-package dom.studios;
+package dom.studios.wafflegridview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

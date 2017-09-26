@@ -1,4 +1,4 @@
-package dom.studios.view;
+package dom.studios.wafflegridview.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import dom.studios.R;
-import dom.studios.model.Item;
+import dom.studios.wafflegridview.model.Item;
 
 /**
  * Created by kevindom on 11/07/17.

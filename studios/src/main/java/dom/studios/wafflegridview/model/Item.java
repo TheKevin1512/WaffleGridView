@@ -1,4 +1,4 @@
-package dom.studios.model;
+package dom.studios.wafflegridview.model;
 
 import android.graphics.Bitmap;
 

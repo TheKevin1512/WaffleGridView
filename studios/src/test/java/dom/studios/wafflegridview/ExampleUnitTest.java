@@ -1,4 +1,4 @@
-package dom.studios;
+package dom.studios.wafflegridview;
 
 import org.junit.Test;
 

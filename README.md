@@ -4,7 +4,7 @@
 
 ### Usage in xml
 ```
-<dom.studios.view.WaffleGridView
+<dom.studios.wafflegridview.view.WaffleGridView
         android:id="@+id/gridView"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
