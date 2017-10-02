@@ -24,6 +24,7 @@ public class WaffleGridView extends View {
 
     private static final float OFFSET = 20;
 
+    private static final int    DEFAULT_TEXT_SPACING    = 10;
     private static final int    DEFAULT_DENSITY         = 10;
     private static final int    DEFAULT_COLOR           = Color.BLUE;
     private static final int    DEFAULT_SELECTED_COLOR  = Color.GRAY;
@@ -39,6 +40,8 @@ public class WaffleGridView extends View {
     private OnItemSelectedListener listener;
 
     private float density     = DEFAULT_DENSITY;
+
+    private int spacing       = DEFAULT_TEXT_SPACING;
 
     private int color         = DEFAULT_COLOR;
     private int selectedColor = DEFAULT_SELECTED_COLOR;
@@ -83,6 +86,14 @@ public class WaffleGridView extends View {
         this.paint.setTextSize(30);
         this.paint.setTextAlign(Paint.Align.CENTER);
         this.paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+    }
+
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
+    }
+
+    public int getSpacing() {
+        return spacing;
     }
 
     public void setItems(Item[] items) {
@@ -259,7 +270,7 @@ public class WaffleGridView extends View {
                 canvas.drawText(
                         items[index].getDescription(),
                         (columnFactor * (j + 1) + columnFactor * j) / 2,
-                        (rowFactor * (i + 1) + rowFactor * i) / 2 + items[index].getHeight() / 1.5f,
+                        (rowFactor * (i + 1) + rowFactor * i) / 2 + items[index].getHeight() / 1.5f + spacing,
                         paint
                 );
                 index++;

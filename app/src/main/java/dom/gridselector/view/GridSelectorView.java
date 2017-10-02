@@ -26,6 +26,7 @@ public class GridSelectorView extends View {
 
     private static final float OFFSET = 20;
 
+    private static final int    DEFAULT_TEXT_SPACING    = 20;
     private static final int    DEFAULT_DENSITY         = 10;
     private static final int    DEFAULT_COLOR           = Color.BLUE;
     private static final int    DEFAULT_SELECTED_COLOR  = Color.GRAY;
@@ -42,6 +43,7 @@ public class GridSelectorView extends View {
 
     private float density     = DEFAULT_DENSITY;
 
+    private int spacing       = DEFAULT_TEXT_SPACING;
     private int color         = DEFAULT_COLOR;
     private int selectedColor = DEFAULT_SELECTED_COLOR;
 
@@ -85,6 +87,14 @@ public class GridSelectorView extends View {
         this.paint.setTextSize(30);
         this.paint.setTextAlign(Paint.Align.CENTER);
         this.paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+    }
+
+    public int getSpacing() {
+        return spacing;
+    }
+
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
     }
 
     public void setSelectedItem(Item item) {
@@ -261,7 +271,7 @@ public class GridSelectorView extends View {
                 canvas.drawText(
                         items[index].getDescription(),
                         (columnFactor * (j + 1) + columnFactor * j) / 2,
-                        (rowFactor * (i + 1) + rowFactor * i) / 2 + items[index].getHeight() / 1.5f,
+                        (rowFactor * (i + 1) + rowFactor * i) / 2 + items[index].getHeight() / 1.5f + spacing,
                         paint
                 );
                 index++;
