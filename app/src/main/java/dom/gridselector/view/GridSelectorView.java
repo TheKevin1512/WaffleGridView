@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,8 @@ import dom.gridselector.model.Item;
 public class GridSelectorView extends View {
 
     private static final float OFFSET = 20;
+    private static final double ROW_HEIGHT_RATIO = 0.15;
+
 
     private static final int DEFAULT_TEXT_SPACING = 20;
     private static final int DEFAULT_DENSITY = 10;
@@ -176,17 +179,13 @@ public class GridSelectorView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        if (heightMode == MeasureSpec.EXACTLY)
-            this.height = MeasureSpec.getSize(heightMeasureSpec);
-        else
-            this.height = metrics.heightPixels / 2;
-
 
         this.width = MeasureSpec.getSize(widthMeasureSpec);
+        this.height = (int) (metrics.heightPixels * ROW_HEIGHT_RATIO * getRows());
 
-
-        if (items != null) calculatePositions(items);
+        if (items != null) {
+            calculatePositions(items);
+        }
         setMeasuredDimension(this.width, this.height);
     }
 

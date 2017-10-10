@@ -15,8 +15,8 @@
         app:density="15"
         app:selectedColor="#F2B10C"
         app:color="#7852a9"
-        app:cols="4"
-        app:rows="2"/>
+        app:cols="2"
+        app:rows="4"/>
 
     <Button
         android:id="@+id/testButton"
