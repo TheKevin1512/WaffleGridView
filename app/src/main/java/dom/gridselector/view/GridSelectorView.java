@@ -12,8 +12,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import dom.gridselector.R;
 import dom.gridselector.model.Item;
@@ -26,14 +29,14 @@ public class GridSelectorView extends View {
 
     private static final float OFFSET = 20;
 
-    private static final int    DEFAULT_TEXT_SPACING    = 20;
-    private static final int    DEFAULT_DENSITY         = 10;
-    private static final int    DEFAULT_COLOR           = Color.BLUE;
-    private static final int    DEFAULT_SELECTED_COLOR  = Color.GRAY;
-    private static final int    DEFAULT_ROWS            = 3;
-    private static final int    DEFAULT_COLS            = 3;
+    private static final int DEFAULT_TEXT_SPACING = 20;
+    private static final int DEFAULT_DENSITY = 10;
+    private static final int DEFAULT_COLOR = Color.BLUE;
+    private static final int DEFAULT_SELECTED_COLOR = Color.GRAY;
+    private static final int DEFAULT_ROWS = 3;
+    private static final int DEFAULT_COLS = 3;
 
-    private static final int    CLICK_ACTION_THRESHHOLD = 50;
+    private static final int CLICK_ACTION_THRESHHOLD = 50;
 
 
     private Item[] items;
@@ -41,10 +44,10 @@ public class GridSelectorView extends View {
 
     private OnItemSelectedListener listener;
 
-    private float density     = DEFAULT_DENSITY;
+    private float density = DEFAULT_DENSITY;
 
-    private int spacing       = DEFAULT_TEXT_SPACING;
-    private int color         = DEFAULT_COLOR;
+    private int spacing = DEFAULT_TEXT_SPACING;
+    private int color = DEFAULT_COLOR;
     private int selectedColor = DEFAULT_SELECTED_COLOR;
 
     private int cols = DEFAULT_COLS;
@@ -56,6 +59,8 @@ public class GridSelectorView extends View {
 
     private int width;
     private int height;
+
+    private DisplayMetrics metrics;
 
     public GridSelectorView(Context context) {
         super(context);
@@ -74,13 +79,16 @@ public class GridSelectorView extends View {
 
     private void init(Context context, AttributeSet attrs) {
         if (context == null) return;
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
         if (attrs != null) {
             TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.GridSelectorView);
-            this.selectedColor  = attributes.getColor(R.styleable.GridSelectorView_selectedColor, DEFAULT_SELECTED_COLOR);
-            this.color          = attributes.getColor(R.styleable.GridSelectorView_color, DEFAULT_COLOR);
-            this.density        = attributes.getInt(R.styleable.GridSelectorView_density, DEFAULT_DENSITY);
-            this.cols           = attributes.getInt(R.styleable.GridSelectorView_cols, DEFAULT_COLS);
-            this.rows           = attributes.getInt(R.styleable.GridSelectorView_rows, DEFAULT_ROWS);
+            this.selectedColor = attributes.getColor(R.styleable.GridSelectorView_selectedColor, DEFAULT_SELECTED_COLOR);
+            this.color = attributes.getColor(R.styleable.GridSelectorView_color, DEFAULT_COLOR);
+            this.density = attributes.getInt(R.styleable.GridSelectorView_density, DEFAULT_DENSITY);
+            this.cols = attributes.getInt(R.styleable.GridSelectorView_cols, DEFAULT_COLS);
+            this.rows = attributes.getInt(R.styleable.GridSelectorView_rows, DEFAULT_ROWS);
             attributes.recycle();
         }
         this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -168,9 +176,18 @@ public class GridSelectorView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        if (heightMode == MeasureSpec.EXACTLY)
+            this.height = MeasureSpec.getSize(heightMeasureSpec);
+        else
+            this.height = metrics.heightPixels / 2;
+
+
         this.width = MeasureSpec.getSize(widthMeasureSpec);
-        this.height = MeasureSpec.getSize(heightMeasureSpec);
+
+
         if (items != null) calculatePositions(items);
+        setMeasuredDimension(this.width, this.height);
     }
 
     private void calculatePositions(Item[] items) {
@@ -251,7 +268,7 @@ public class GridSelectorView extends View {
         int index = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (items[index].equals(selectedItem)){
+                if (items[index].equals(selectedItem)) {
                     this.paint.setColor(selectedColor);
                     canvas.drawBitmap(
                             items[index].getSelectedIcon(),

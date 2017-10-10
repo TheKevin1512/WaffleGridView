@@ -10,8 +10,10 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import dom.studios.wafflegridview.R;
 import dom.studios.wafflegridview.model.Item;
@@ -56,6 +58,8 @@ public class WaffleGridView extends View {
     private int width;
     private int height;
 
+    private DisplayMetrics metrics;
+
     public WaffleGridView(Context context) {
         super(context);
         init(context, null);
@@ -73,6 +77,9 @@ public class WaffleGridView extends View {
 
     private void init(Context context, AttributeSet attrs) {
         if (context == null) return;
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
         if (attrs != null) {
             TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.WaffleGridView);
             this.selectedColor  = attributes.getColor(R.styleable.WaffleGridView_selectedColor, DEFAULT_SELECTED_COLOR);
@@ -167,9 +174,18 @@ public class WaffleGridView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        if (heightMode == MeasureSpec.EXACTLY)
+            this.height = MeasureSpec.getSize(heightMeasureSpec);
+        else
+            this.height = metrics.heightPixels / 2;
+
+
         this.width = MeasureSpec.getSize(widthMeasureSpec);
-        this.height = MeasureSpec.getSize(heightMeasureSpec);
+
+
         if (items != null) calculatePositions(items);
+        setMeasuredDimension(this.width, this.height);
     }
 
     private void calculatePositions(Item[] items) {
